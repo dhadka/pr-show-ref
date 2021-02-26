@@ -1,0 +1,27 @@
+name: test-cache-403
+on:
+  pull_request:
+    types: [opened,synchronize,reopened,closed]
+    branches: [main, master]
+
+
+
+jobs:
+  test-cache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Output env
+        run: env
+      - name: Store cache
+        uses: actions/cache@v2
+        continue-on-error: true
+        with:
+          path: ~/.test/
+          key: ${{ runner.os }}-test-
+          restore-keys: |
+            ${{ runner.os }}-test-
